@@ -1,0 +1,533 @@
+<!doctype html>
+<html lang="uk">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>
+      FORMA — Студія дизайну інтер'єру в Одесі | Дім, офіс, кафе, магазин
+    </title>
+    <meta
+      name="description"
+      content="FORMA — студія дизайну інтер'єру в Одесі. Створюємо функціональні та естетичні простори для дому, офісів, кафе та магазинів. Консультація, проєкт, реалізація під ключ."
+    />
+    <meta
+      name="keywords"
+      content="дизайн інтер'єру, студія дизайну Одеса, дизайн квартири, дизайн офісу, дизайн кафе, ремонт під ключ, інтер'єр, меблі"
+    />
+    <meta name="author" content="FORMA Studio" />
+    <meta name="robots" content="index, follow" />
+    <meta name="theme-color" content="#0d0d0b" />
+    <link rel="canonical" href="https://forma.studio/" />
+    <meta property="og:type" content="website" />
+    <meta property="og:locale" content="uk_UA" />
+    <meta property="og:site_name" content="FORMA Studio" />
+    <meta
+      property="og:title"
+      content="FORMA — Студія дизайну інтер'єру в Одесі"
+    />
+    <meta
+      property="og:description"
+      content="Створюємо інтер'єр вашої мрії — для дому, офісів, кафе та магазинів. Проєкт і реалізація під ключ."
+    />
+    <meta property="og:url" content="https://forma.studio/" />
+    <meta
+      property="og:image"
+      content="https://images.unsplash.com/photo-1768609239321-1cfe14893e80?auto=format&fit=crop&w=1200&q=80"
+    />
+    <meta name="twitter:card" content="summary_large_image" />
+    <meta name="twitter:title" content="FORMA — Студія дизайну інтер'єру" />
+    <meta
+      name="twitter:description"
+      content="Дизайн інтер'єру для дому, офісів, кафе та магазинів. Одеса, Україна."
+    />
+    <meta
+      name="twitter:image"
+      content="https://images.unsplash.com/photo-1768609239321-1cfe14893e80?auto=format&fit=crop&w=1200&q=80"
+    />
+    <meta name="geo.region" content="UA-51" />
+    <meta name="geo.placename" content="Odesa" />
+
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Oswald:wght@300;400;500;600;700&family=Onest:wght@300;400;500;600;700;800&display=swap"
+      rel="stylesheet"
+    />
+
+    <link rel="stylesheet" href="./css/styles.css" />
+    <script src="./js/main.js" defer></script>
+
+    <script type="application/ld+json">
+      {
+        "@context": "https://schema.org",
+        "@type": "InteriorDesignService",
+        "name": "FORMA Studio",
+        "image": "https://images.unsplash.com/photo-1768609239321-1cfe14893e80?auto=format&fit=crop&w=1200&q=80",
+        "description": "Студія дизайну інтер'єру в Одесі. Дизайн та реалізація просторів для дому, офісів, кафе та магазинів.",
+        "url": "https://forma.studio/",
+        "telephone": "+380680000000",
+        "email": "hello@forma.studio",
+        "priceRange": "$$",
+        "address": {
+          "@type": "PostalAddress",
+          "addressLocality": "Одеса",
+          "addressRegion": "Одеська область",
+          "addressCountry": "UA"
+        },
+        "areaServed": "Україна",
+        "founder": {
+          "@type": "Person",
+          "name": "Олександр Ковальчук",
+          "jobTitle": "CEO"
+        },
+        "sameAs": [
+          "https://instagram.com/forma.studio",
+          "https://t.me/forma_studio",
+          "https://pinterest.com/forma.studio"
+        ],
+        "makesOffer": [
+          {
+            "@type": "Offer",
+            "itemOffered": { "@type": "Service", "name": "Дизайн-консультація" }
+          },
+          {
+            "@type": "Offer",
+            "itemOffered": {
+              "@type": "Service",
+              "name": "Дизайн-проєкт інтер'єру"
+            }
+          },
+          {
+            "@type": "Offer",
+            "itemOffered": { "@type": "Service", "name": "Реалізація під ключ" }
+          }
+        ],
+        "aggregateRating": {
+          "@type": "AggregateRating",
+          "ratingValue": "4.9",
+          "reviewCount": "273"
+        }
+      }
+    </script>
+  </head>
+  <body id="top">
+    <!-- HEADER -->
+    <header id="hdr">
+      <nav class="nav wrap">
+        <a href="#top" class="logo">
+            <span class="mark">
+                <svg viewBox="0 0 24 24" fill="none">
+                    <path d="M5 19V5h11M5 12h8" stroke="#16160e" stroke-width="2.4" stroke-linecap="round"/>
+                </svg>
+            </span>
+            FORMA
+        </a>
+        <ul class="nav-links">
+          <li><a href="#top">Головна</a></li>
+          <li><a href="#features">Переваги</a></li>
+          <li><a href="#services">Послуги</a></li>
+          <li><a href="#blog">Блог</a></li>
+          <li><a href="#contact">Контакти</a></li>
+        </ul>
+        <button class="btn-cta" onclick="goForm()">
+            Замовити
+            <svg width="15" height="15" viewBox="0 0 24 24" fill="none">
+                <path d="M7 17L17 7M17 7H8M17 7v9" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"/>
+            </svg>
+        </button>
+        <button class="burger" id="burger" aria-label="Відкрити меню">
+          <span></span><span></span><span></span>
+        </button>
+      </nav>
+    </header>
+
+    <!-- MOBILE MENU -->
+    <div class="mmenu" id="mmenu">
+      <button class="mclose" id="mclose" aria-label="Закрити">&times;</button>
+      <a href="#top">Головна</a>
+      <a href="#features">Переваги</a>
+      <a href="#services">Послуги</a>
+      <a href="#blog">Блог</a>
+      <a href="#contact" class="lime">Замовити</a>
+    </div>
+
+    <main>
+      <!-- HERO -->
+      <section class="hero">
+        <div class="wrap">
+          <h1 class="display">
+            <span class="ln"><span>Інтер'єр</span></span>
+            <span class="ln"><span class="lime">майбутнього</span></span>
+          </h1>
+          <p class="hero-sub">
+            <b>FORMA</b> — студія дизайну інтер'єру в Одесі, що створює простори
+            для дому, офісів, кафе, магазинів та багатьох інших задач.
+          </p>
+
+          <div class="cat-row">
+            <div class="cat-label">
+              Оберіть напрям — і подивіться приклади робіт:
+            </div>
+            <div class="cats" id="cats" role="tablist"></div>
+          </div>
+
+          <div class="strip-wrap">
+             <div class="strip"><div class="strip-track" id="strip"></div></div>
+          </div>
+        </div>
+      </section>
+
+      <!-- STATS + SCROLL BUTTON -->
+      <section class="gallery">
+        <div class="wrap">
+          <div class="stats-band">
+            <div class="stats">
+              <div class="statc rv">
+                <div>
+                  <div class="num"><span data-count="389">0</span>+</div>
+                  <div class="lbl">Задоволених клієнтів</div>
+                </div>
+              </div>
+              <div class="statc rv d1">
+                <div>
+                  <div class="num"><span data-count="273">0</span>+</div>
+                  <div class="lbl">Реалізованих проєктів</div>
+                </div>
+              </div>
+              <div class="statc rv d2">
+                <div>
+                  <div class="num"><span data-count="842">0</span>+</div>
+                  <div class="lbl">Клієнтів за 8 років</div>
+                </div>
+              </div>
+            </div>
+            <button class="scroll-btn rv d3" onclick="document.getElementById('features').scrollIntoView()" aria-label="Гортати донизу">
+                <span class="circ">
+                    <svg viewBox="0 0 24 24" fill="none">
+                     <path d="M12 5v14M12 19l6-6M12 19l-6-6" stroke="#16160e" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"/>
+                    </svg>
+                </span>
+                <span class="t">Донизу</span>
+            </button>
+          </div>
+        </div>
+      </section>
+
+      <!-- CEO QUOTE -->
+      <section class="quote-sec" id="about">
+        <div class="wrap">
+          <div class="quote-card rv">
+            <div class="bg">
+              <img src="https://images.unsplash.com/photo-1567016376408-0226e4d0c1ea?auto=format&fit=crop&w=1500&q=80" alt="Стильний інтер'єр вітальні"/>
+            </div>
+            <div class="qmark">”</div>
+            <p class="qtext">
+              Ми створюємо рішення для тих, хто хоче мати
+              <span class="lime">інтер'єр своєї мрії</span> — функціональний, естетичний і по-справжньому свій.
+            </p>
+            <div class="ceo">
+              <div class="ph">
+                <img src="https://images.unsplash.com/photo-1560250097-0b93528c311a?auto=format&fit=crop&w=200&q=80" alt="Олександр Ковальчук, CEO FORMA"/>
+              </div>
+              <div>
+                <div class="nm">Олександр Ковальчук</div>
+                <div class="rl">Засновник та CEO FORMA</div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <!-- FEATURES -->
+      <section class="sec light-sec" id="features">
+        <div class="wrap">
+          <div class="rv">
+            <span class="eyebrow">Чому обирають нас?</span>
+            <h2 class="head-title">Чим ми відрізняємось</h2>
+          </div>
+
+          <div class="feature rv">
+            <div class="f-media dashed">
+              <div class="inner">
+                <img src="https://images.unsplash.com/photo-1762983870490-63e5ba07105b?auto=format&fit=crop&w=900&q=80" alt="Робоча зона дизайнера"/>
+                <!-- <div class="f-arrow">
+                  <svg viewBox="0 0 24 24" fill="none">
+                    <path
+                      d="M7 17L17 7M17 7H8M17 7v9"
+                      stroke="#16160e"
+                      stroke-width="2.4"
+                      stroke-linecap="round"
+                      stroke-linejoin="round"
+                    />
+                  </svg>
+                </div> -->
+              </div>
+            </div>
+            <div>
+              <div class="f-num">01 — Деталі</div>
+              <h3 class="f-title">Досконалий дизайн</h3>
+              <p class="f-text">
+                Оптимізація та ретельне опрацювання кожної деталі — ключ до
+                результату, яким хочеться милуватись щодня.
+              </p>
+              <div class="tags">
+                <span class="tag">Оптимізація</span>
+                <span class="tag">Деталі</span>
+                <span class="tag">Результат</span>
+                <span class="tag">Фінал</span>
+              </div>
+            </div>
+          </div>
+
+          <div class="feature rev rv">
+            <div class="f-media">
+              <img src="https://images.unsplash.com/photo-1583847268964-b28dc8f51f92?auto=format&fit=crop&w=900&q=80" alt="Затишна вітальня"/>
+            </div>
+            <div>
+              <div class="f-num">02 — Затишок</div>
+              <h3 class="f-title">Комфорт</h3>
+              <p class="f-text">
+                Затишок у кожному елементі простору. Мінімалістичний та сучасний
+                підхід, що дбає про вас і ваш ритм життя.
+              </p>
+              <div class="tags">
+                <span class="tag">Інтер'єр</span><span class="tag">Дизайн</span>
+                <span class="tag">Мінімалізм</span>
+                <span class="tag">Сучасність</span>
+              </div>
+            </div>
+          </div>
+
+          <div class="feature rv">
+            <div class="f-media">
+              <img src="https://images.unsplash.com/photo-1555041469-a586c61ea9bc?auto=format&fit=crop&w=900&q=80" alt="Розкішний диван"/>
+            </div>
+            <div>
+              <div class="f-num">03 — Естетика</div>
+              <h3 class="f-title">Розкішне життя</h3>
+              <p class="f-text">
+                Меблі та елементи декору, що створюють відчуття елегантності й
+                розкоші — у кожному погляді на ваш інтер'єр.
+              </p>
+              <div class="tags">
+                <span class="tag">Інтер'єр</span><span class="tag">Декор</span
+                ><span class="tag">Елементи</span
+                ><span class="tag">Елегантність</span>
+              </div>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <!-- SERVICES -->
+      <section class="sec" id="services">
+        <div class="wrap">
+          <div class="serv-top">
+            <div class="rv">
+              <span class="eyebrow">Послуги</span>
+              <h2 class="head-title">Що ми пропонуємо</h2>
+            </div>
+            <p class="serv-intro rv d1">
+              Як студія дизайну та підрядник ми допомагаємо облаштувати простір
+              згідно з вашими побажаннями: естетика, функціональність, комфорт
+              та оптимальний бюджет. Натисніть на послугу — щоб дізнатися
+              деталі.
+            </p>
+          </div>
+          <div class="serv-list" id="servList"></div>
+        </div>
+      </section>
+
+      <!-- BLOG -->
+      <section class="sec light-sec" id="blog">
+        <div class="wrap">
+          <div class="blog-head rv">
+            <div>
+              <span class="eyebrow">Блог</span>
+              <h2 class="display" style="margin-top: 14px">
+                Останнє <span class="skew lime">з блогу</span>
+              </h2>
+            </div>
+          </div>
+          <div class="blog-grid" id="blogGrid"></div>
+          <div class="blog-more">
+            <button class="btn-ghost" id="moreBtn">
+              Показати більше статей
+              <svg width="16" height="16" viewBox="0 0 24 24" fill="none">
+                <path d="M12 5v14M5 12l7 7 7-7" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"/>
+              </svg>
+            </button>
+          </div>
+        </div>
+      </section>
+
+      <!-- CONTACT + FORM -->
+      <section class="contact-sec" id="contact">
+        <div class="wrap">
+          <div class="contact-grid">
+            <div class="contact-info rv">
+              <span class="eyebrow">Заявка</span>
+              <h2 style="margin-top: 14px">Розкажіть про ваш простір</h2>
+              <p>
+                Залиште заявку — і ми звʼяжемося з вами протягом дня, щоб
+                обговорити завдання, терміни та орієнтовний бюджет. Безкоштовно.
+              </p>
+              <div class="ci-list">
+                <div class="ci-item">
+                  <span class="ic">
+                        <svg viewBox="0 0 24 24" fill="none" stroke-width="2">
+                        <path d="M3 5l9 7 9-7M3 5h18v14H3V5z" stroke="currentColor"/>
+                        </svg>
+                    </span>
+                  <div>
+                    <div class="k">Пошта</div>
+                    <div class="v">hello@forma.studio</div>
+                  </div>
+                </div>
+                <div class="ci-item">
+                    <span class="ic">
+                        <svg viewBox="0 0 24 24" fill="none" stroke-width="2">
+                        <path d="M4 4h4l2 5-3 2a14 14 0 006 6l2-3 5 2v4a2 2 0 01-2 2A17 17 0 014 6a2 2 0 010-2z" stroke="currentColor"/>
+                        </svg>
+                    </span>
+                  <div>
+                    <div class="k">Телефон</div>
+                    <div class="v">+38 (068) 000-00-00</div>
+                  </div>
+                </div>
+                <div class="ci-item">
+                    <span class="ic">
+                        <svg viewBox="0 0 24 24" fill="none" stroke-width="2">
+                            <path d="M12 21s7-6.5 7-12a7 7 0 10-14 0c0 5.5 7 12 7 12z" stroke="currentColor"/>
+                            <circle cx="12" cy="9" r="2.5" stroke="currentColor"/>
+                        </svg>
+                    </span>
+                    <div>
+                        <div class="k">Локація</div>
+                        <div class="v">Одеса, Україна</div>
+                    </div>
+                </div>
+              </div>
+            </div>
+
+            <div class="form-card rv d1">
+              <form id="leadForm" novalidate>
+                <div class="form-grid">
+                  <div class="field">
+                    <label for="fn">Ім'я</label>
+                    <input id="fn" name="name" type="text" placeholder="Ваше ім'я" required/>
+                  </div>
+                  <div class="field">
+                    <label for="fp">Телефон</label>
+                    <input id="fp" name="phone" type="tel" placeholder="+38 (0__) ___-__-__" required/>
+                  </div>
+                  <div class="field">
+                    <label for="fe">Email</label>
+                    <input id="fe" name="email" type="email" placeholder="email@gmail.com"/>
+                  </div>
+                  <div class="field">
+                    <label for="ft">Тип проєкту</label>
+                    <select id="ft" name="type">
+                      <option value="Квартира / Дім">Квартира / Дім</option>
+                      <option value="Офіс">Офіс</option>
+                      <option value="Кафе / Ресторан">Кафе / Ресторан</option>
+                      <option value="Магазин">Магазин</option>
+                      <option value="Інше">Інше</option>
+                    </select>
+                  </div>
+                  <div class="field full">
+                    <label for="fm">Повідомлення</label>
+                    <textarea id="fm" name="msg" placeholder="Кілька слів про простір, площу, побажання…"></textarea>
+                  </div>
+                </div>
+                <button type="submit" class="btn-cta form-submit">
+                  Надіслати заявку
+                  <svg width="15" height="15" viewBox="0 0 24 24" fill="none">
+                    <path d="M7 17L17 7M17 7H8M17 7v9" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"/>
+                  </svg>
+                </button>
+                <p class="form-note">
+                  Натискаючи кнопку, ви погоджуєтесь на обробку даних.
+                </p>
+              </form>
+              <div class="form-ok" id="formOk">
+                <div class="big">Дякуємо!</div>
+                <p>Заявку прийнято. Ми звʼяжемося з вами найближчим часом.</p>
+              </div>
+            </div>
+          </div>
+        </div>
+      </section>
+    </main>
+
+    <!-- FOOTER -->
+    <footer>
+      <div class="foot-hero">
+        <div class="fbg">
+          <img src="https://images.unsplash.com/photo-1567016376408-0226e4d0c1ea?auto=format&fit=crop&w=1600&q=80" alt="Інтер'єр"/>
+        </div>
+        <div class="wrap">
+          <h2 class="display rv">
+            <span class="skew">Ваш простір —</span><br /><span class="skew out">наше рішення</span>
+          </h2>
+          <button class="btn-cta fbtn rv d1" onclick="goForm()">
+            Замовити проєкт
+            <svg width="15" height="15" viewBox="0 0 24 24" fill="none">
+              <path d="M7 17L17 7M17 7H8M17 7v9" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"/>
+            </svg>
+          </button>
+        </div>
+      </div>
+      <div class="wrap">
+        <div class="bar">
+            <a href="#top" class="logo">
+                <span class="mark">
+                    <svg viewBox="0 0 24 24" fill="none">
+                        <path d="M5 19V5h11M5 12h8" stroke="#16160e" stroke-width="2.4" stroke-linecap="round"/>
+                    </svg>
+                </span>
+                FORMA
+            </a>
+            <nav class="fnav">
+                <a href="#top">Головна</a><a href="#features">Переваги</a>
+                <a href="#services">Послуги</a><a href="#blog">Блог</a>
+                <a href="#contact">Контакти</a>
+            </nav>
+            <div class="socials">
+                <a href="#" aria-label="Instagram">
+                    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                        <rect x="3" y="3" width="18" height="18" rx="5" />
+                        <circle cx="12" cy="12" r="4" />
+                        <circle cx="17.5" cy="6.5" r="1" fill="currentColor" stroke="none"/>
+                    </svg>
+                </a>
+                <a href="#" aria-label="Telegram">
+                    <svg viewBox="0 0 24 24" fill="currentColor">
+                        <path d="M21.9 4.3 2.9 11.6c-1 .4-1  1.8 0 2.1l4.7 1.5 1.8 5.7c.3.8 1.3 1 1.9.4l2.6-2.6 4.8 3.5c.7.5 1.7.1 1.9-.7L23.9 5.5c.2-1-.7-1.6-2-1.2zM9.6 14.3 17 9.2c.3-.2.6.2.4.4l-6 5.6c-.2.2-.3.4-.3.7l-.2 2.4-1.3-4z"/>
+                    </svg>
+                </a>
+                <a href="#" aria-label="Pinterest">
+                    <svg viewBox="0 0 24 24" fill="currentColor">
+                        <path d="M12 2a10 10 0 00-3.6 19.3c-.1-.8-.1-2 0-2.9l1.2-5s-.3-.6-.3-1.5c0-1.4.8-2.4 1.8-2.4.9 0 1.3.6 1.3 1.4 0 .9-.5 2.1-.8 3.3-.2 1 .5 1.8 1.5 1.8 1.8 0 3-2.3 3-5 0-2.1-1.4-3.6-3.9-3.6-2.9 0-4.6 2.1-4.6 4.4 0 .8.2 1.4.6 1.9.2.2.2.3.1.5l-.2.9c0 .3-.2.4-.5.2-1.3-.5-1.9-2-1.9-3.6 0-2.7 2.3-5.9 6.8-5.9 3.6 0 6 2.6 6 5.4 0 3.7-2.1 6.5-5.1 6.5-1 0-2-.6-2.3-1.2l-.7 2.5c-.2.8-.7 1.8-1.1 2.5A10 10 0 1012 2z"/>
+                    </svg>   
+                </a>
+          </div>
+        </div>
+        <p class="copy">
+          © 2026 FORMA Studio. Дизайн інтер'єру з турботою про деталі. Одеса, Україна.
+        </p>
+      </div>
+    </footer>
+
+    <!-- MODAL -->
+    <div class="modal-overlay" id="modal" role="dialog" aria-modal="true">
+      <div class="modal">
+        <button class="modal-close" id="modalClose" aria-label="Закрити">
+          &times;
+        </button>
+        <div id="modalImg" class="modal-img"></div>
+        <div class="modal-body" id="modalBody"></div>
+      </div>
+    </div>
+  </body>
+</html>
