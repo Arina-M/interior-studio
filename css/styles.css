@@ -266,7 +266,7 @@ header.is-scrolled .site-navigation {
   overflow: hidden;
 }
 .hero h1 .hero-line span {
-  display: inline-block;
+  /* display: inline-block; */
   transform: skewX(-8deg) translateY(105%);
   transition: 1s var(--ease-out);
 }
