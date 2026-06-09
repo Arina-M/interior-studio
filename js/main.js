@@ -1,12 +1,24 @@
-const U = (id, w = 640) =>
+const createUnsplashUrl = (id, w = 640) =>
   `https://images.unsplash.com/${id}?auto=format&fit=crop&w=${w}&q=80`;
 
+const ICONS = {
+  arrowUpRight: `
+    <svg width="15" height="15" viewBox="0 0 24 24" fill="none" aria-hidden="true">
+      <path d="M7 17L17 7M17 7H8M17 7v9" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"/>
+    </svg>
+  `,
+  arrowRight: `
+    <svg width="15" height="15" viewBox="0 0 24 24" fill="none" aria-hidden="true">
+      <path d="M5 12h14M13 6l6 6-6 6" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"/>
+    </svg>
+  `,
+};
+
 /* ---------- CATEGORIES + RUNNING STRIP ---------- */
-const CATS = [
+const projectCategories = [
   {
-    key: "living",
     label: "Вітальня",
-    imgs: [
+    imageIds: [
       "photo-1768609239321-1cfe14893e80",
       "photo-1618221195710-dd6b41faaea6",
       "photo-1583847268964-b28dc8f51f92",
@@ -16,9 +28,8 @@ const CATS = [
     ],
   },
   {
-    key: "office",
     label: "Офіс",
-    imgs: [
+    imageIds: [
       "photo-1762983870490-63e5ba07105b",
       "photo-1497366754035-f200968a6e72",
       "photo-1497366811353-6870744d04b2",
@@ -27,9 +38,8 @@ const CATS = [
     ],
   },
   {
-    key: "kitchen",
     label: "Кухня",
-    imgs: [
+    imageIds: [
       "photo-1556912167-f556f1f39fdf",
       "photo-1600489000022-c2086d79f9d4",
       "photo-1628745277862-bc0b2d68c50c",
@@ -39,9 +49,8 @@ const CATS = [
     ],
   },
   {
-    key: "bedroom",
     label: "Спальня",
-    imgs: [
+    imageIds: [
       "photo-1642541070065-3912f347e7c6",
       "photo-1604580040660-f0a7f9abaea6",
       "photo-1653974123568-b5eff6d851e1",
@@ -49,80 +58,104 @@ const CATS = [
     ],
   },
   {
-    key: "cafe",
     label: "Кафе",
-    imgs: [
+    imageIds: [
       "photo-1648462908676-8305f0eff8e0",
       "photo-1612192527395-06b72da6b35a",
       "photo-1775059956734-78ffd2075cec",
     ],
   },
   {
-    key: "bathroom",
     label: "Ванна",
-    imgs: [
+    imageIds: [
       "photo-1638799869566-b17fa794c4de",
       "photo-1631889993959-41b4e9c6e3c5",
       "photo-1650894622076-e09ab837c502",
     ],
   },
 ];
-const catsEl = document.getElementById("cats");
-const stripEl = document.getElementById("strip");
-const stripBox = document.querySelector(".strip");
-let activeCat = CATS[1];
+const categoryList = document.getElementById("categoryList");
+const galleryStripTrack = document.getElementById("galleryStripTrack");
+const galleryStrip = document.querySelector(".gallery-strip");
+const defaultCategory = projectCategories[1];
+let activeCategory = defaultCategory;
+let resizeTimer;
 
-function cardHTML(id, label) {
-  return `<figure class="scard"><img src="${U(id)}" alt="${label} — приклад роботи FORMA" loading="lazy"><figcaption class="cap">/ ${label}</figcaption></figure>`;
+function createGalleryCard(imageId, categoryLabel) {
+  return `
+    <figure class="gallery-card">
+      <img src="${createUnsplashUrl(imageId)}" alt="${categoryLabel} — приклад роботи FORMA" loading="lazy">
+      <figcaption class="gallery-caption">/ ${categoryLabel}</figcaption>
+    </figure>
+  `;
 }
 
-function renderStrip(cat) {
-  activeCat = cat;
-  const set = cat.imgs.map((id) => cardHTML(id, cat.label)).join("");
-  stripEl.style.animation = "none";
-  stripEl.innerHTML = set;
-  const setW = stripEl.scrollWidth || 1;
-  // repeat the set so one loop-unit is at least as wide as the visible strip
-  const reps = Math.max(1, Math.ceil(stripBox.clientWidth / setW));
-  const unit = set.repeat(reps);
-  stripEl.innerHTML = unit + unit; // two identical units => translateX(-50%) loops seamlessly
-  void stripEl.offsetWidth; // reflow to restart cleanly
-  stripEl.style.animation = "";
-  stripEl.style.animationDuration = cat.imgs.length * reps * 5.5 + "s";
-}
-let rzT;
-addEventListener("resize", () => {
-  clearTimeout(rzT);
-  rzT = setTimeout(() => renderStrip(activeCat), 200);
-});
-CATS.forEach((c, i) => {
-  const b = document.createElement("button");
-  b.className = "cat" + (i === 1 ? " active" : ""); // Офіс active by default (як у референсі)
-  b.innerHTML = `<span class="sl">/</span> ${c.label}`;
-  b.onclick = () => {
-    document
-      .querySelectorAll(".cat")
-      .forEach((x) => x.classList.remove("active"));
-    b.classList.add("active");
-    renderStrip(c);
-  };
-  catsEl.appendChild(b);
-});
-renderStrip(CATS[1]);
+function renderGalleryStrip(category) {
+  activeCategory = category;
+  const cards = category.imageIds
+    .map((imageId) => createGalleryCard(imageId, category.label))
+    .join("");
 
-/* ---------- SERVICES (data + render + modal) ---------- */
-const SERVICES = [
+  galleryStripTrack.style.animation = "none";
+  galleryStripTrack.innerHTML = cards;
+
+  const cardsWidth = galleryStripTrack.scrollWidth || 1;
+  const repeatCount = Math.max(
+    1,
+    Math.ceil(galleryStrip.clientWidth / cardsWidth),
+  );
+  const loopUnit = cards.repeat(repeatCount);
+
+  galleryStripTrack.innerHTML = loopUnit.repeat(2);
+  void galleryStripTrack.offsetWidth;
+  galleryStripTrack.style.animation = "";
+  galleryStripTrack.style.animationDuration = `${
+    category.imageIds.length * repeatCount * 5.5
+  }s`;
+}
+
+function selectCategory(category, selectedButton) {
+  categoryList
+    .querySelectorAll(".category-button")
+    .forEach((button) => {
+      const isSelected = button === selectedButton;
+      button.classList.toggle("is-active", isSelected);
+      button.setAttribute("aria-selected", String(isSelected));
+    });
+  renderGalleryStrip(category);
+}
+
+projectCategories.forEach((category, index) => {
+  const button = document.createElement("button");
+  button.type = "button";
+  button.className = `category-button${index === 1 ? " is-active" : ""}`;
+  button.setAttribute("role", "tab");
+  button.setAttribute("aria-selected", String(index === 1));
+  button.innerHTML = `<span class="category-marker">/</span> ${category.label}`;
+  button.addEventListener("click", () => selectCategory(category, button));
+  categoryList.appendChild(button);
+});
+
+window.addEventListener("resize", () => {
+  clearTimeout(resizeTimer);
+  resizeTimer = setTimeout(() => renderGalleryStrip(activeCategory), 200);
+});
+
+renderGalleryStrip(defaultCategory);
+
+/* ---------- services (data + render + modal) ---------- */
+const services = [
   {
     tag: "Консультація",
     title: "Дизайн-консультація",
-    img: "photo-1762983870490-63e5ba07105b",
-    short:
+    imageId: "photo-1762983870490-63e5ba07105b",
+    summary:
       "Отримайте професійну консультацію щодо планування та організації простору.",
-    desc: [
+    description: [
       "Перша зустріч, на якій ми розбираємо ваш простір: що працює, а що заважає. Ви отримуєте чіткий план дій ще до старту проєкту.",
       "Підходить, якщо ви хочете зрозуміти потенціал приміщення, бюджет і послідовність робіт.",
     ],
-    incl: [
+    includedItems: [
       "Аналіз приміщення та ваших задач",
       "Рекомендації щодо планування та зонування",
       "Орієнтовний бюджет і терміни",
@@ -132,14 +165,14 @@ const SERVICES = [
   {
     tag: "Воркшоп",
     title: "Майстерня виробництва",
-    img: "photo-1610177534644-34d881503b83",
-    short:
+    imageId: "photo-1610177534644-34d881503b83",
+    summary:
       "Власна майстерня як місце для виготовлення та підготовки елементів інтер\u0027єру.",
-    desc: [
+    description: [
       "Частину елементів інтер\u0027єру ми виготовляємо у власній майстерні — це контроль якості та можливість зробити дійсно унікальні речі.",
       "Меблі за індивідуальними розмірами, декор та авторські рішення під ваш проєкт.",
     ],
-    incl: [
+    includedItems: [
       "Меблі за індивідуальними розмірами",
       "Авторський декор та акцентні елементи",
       "Контроль якості на кожному етапі",
@@ -149,14 +182,14 @@ const SERVICES = [
   {
     tag: "Клієнт",
     title: "Замовлення та онлайн-супровід",
-    img: "photo-1497366811353-6870744d04b2",
-    short:
+    imageId: "photo-1497366811353-6870744d04b2",
+    summary:
       "Обслуговування замовлень та онлайн-консультації для клієнтів з міста та поза його межами.",
-    desc: [
+    description: [
       "Якщо ви не в Одесі — це не проблема. Ми ведемо проєкти онлайн: відеозустрічі, цифрові креслення та супровід на кожному кроці.",
       "Ви бачите прогрес у зручному форматі та завжди на звʼязку з командою.",
     ],
-    incl: [
+    includedItems: [
       "Онлайн-зустрічі та узгодження",
       "Цифровий дизайн-проєкт і візуалізації",
       "Супровід закупівель",
@@ -166,15 +199,15 @@ const SERVICES = [
   {
     tag: "Замір",
     title: "Виїзд на об\u0027єкт",
-    img: "photo-1564078516393-cf04bd966897",
-    hot: true,
-    short:
+    imageId: "photo-1564078516393-cf04bd966897",
+    highlighted: true,
+    summary:
       "Щоб максимізувати результат, ми виїжджаємо безпосередньо на об\u0027єкт.",
-    desc: [
+    description: [
       "Ми приїжджаємо на ваш обʼєкт, робимо точні заміри та звіряємо простір із затвердженим дизайном.",
       "Це гарантує, що все стане на свої місця — без сюрпризів під час реалізації.",
     ],
-    incl: [
+    includedItems: [
       "Точні заміри приміщення",
       "Перевірка комунікацій та особливостей",
       "Узгодження дизайну з реальним простором",
@@ -184,14 +217,14 @@ const SERVICES = [
   {
     tag: "Доставка",
     title: "Реалізація та доставка",
-    img: "photo-1768609239321-1cfe14893e80",
-    short:
+    imageId: "photo-1768609239321-1cfe14893e80",
+    summary:
       "Фінальне оздоблення, налаштування та доставка готових рішень на ваш об\u0027єкт.",
-    desc: [
+    description: [
       "Завершальний етап: ми привозимо, монтуємо та налаштовуємо все так, щоб ви одразу могли користуватися простором.",
       "Ви отримуєте готовий результат «під ключ» — лишається тільки насолоджуватися.",
     ],
-    incl: [
+    includedItems: [
       "Доставка та монтаж меблів",
       "Фінальне оздоблення та декор",
       "Прибирання після робіт",
@@ -199,37 +232,51 @@ const SERVICES = [
     ],
   },
 ];
-const servList = document.getElementById("servList");
-SERVICES.forEach((s, i) => {
-  const b = document.createElement("button");
-  b.className = "serv-row" + (s.hot ? " hot" : "");
-  b.innerHTML = `<span class="idx">0${i + 1}</span>
-      <div><span class="serv-tag">${s.tag}</span><h3>${s.title}</h3><p>${s.short}</p></div>
-      <span class="serv-chev"><svg viewBox="0 0 24 24" fill="none"><path d="M7 17L17 7M17 7H8M17 7v9" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg></span>`;
-  b.onclick = () => openService(s);
-  servList.appendChild(b);
+const servicesList = document.getElementById("servicesList");
+
+services.forEach((service, index) => {
+  const serviceButton = document.createElement("button");
+  serviceButton.type = "button";
+  serviceButton.className = `service-row${service.highlighted ? " is-highlighted" : ""}`;
+  serviceButton.innerHTML = `
+    <span class="service-index">0${index + 1}</span>
+    <div>
+      <span class="service-tag">${service.tag}</span>
+      <h3>${service.title}</h3>
+      <p>${service.summary}</p>
+    </div>
+    <span class="service-arrow">${ICONS.arrowUpRight}</span>
+  `;
+  serviceButton.addEventListener("click", () => openServiceModal(service));
+  servicesList.appendChild(serviceButton);
 });
-function openService(s) {
-  const html = `<div class="modal-kicker">Послуга · ${s.tag}</div>
-      <h2>${s.title}</h2>
-      ${s.desc.map((p) => `<p>${p}</p>`).join("")}
-      <h3 style="font-weight:700;margin:6px 0 12px;font-size:15px;letter-spacing:.04em;text-transform:uppercase;color:var(--light)">Що входить</h3>
-      <ul>${s.incl.map((x) => `<li>${x}</li>`).join("")}</ul>
-      <button class="btn-cta" onclick="goForm('${s.title.replace(/'/g, "\\'")}')">Залишити заявку
-        <svg width="15" height="15" viewBox="0 0 24 24" fill="none"><path d="M7 17L17 7M17 7H8M17 7v9" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"/></svg></button>`;
-  openModal(html, U(s.img, 900));
+
+function openServiceModal(service) {
+  const modalHtml = `
+    <div class="modal-kicker">Послуга · ${service.tag}</div>
+    <h2>${service.title}</h2>
+    ${service.description.map((paragraph) => `<p>${paragraph}</p>`).join("")}
+    <h3 class="modal-section-title">Що входить</h3>
+    <ul>${service.includedItems.map((item) => `<li>${item}</li>`).join("")}</ul>
+    <button class="primary-button" type="button" data-contact-prefill="${service.title}">
+      Залишити заявку
+      ${ICONS.arrowUpRight}
+    </button>
+  `;
+
+  openModal(modalHtml, createUnsplashUrl(service.imageId, 900));
 }
 
 /* ---------- BLOG (data + render + modal + more) ---------- */
-const POSTS = [
+const blogPosts = [
   {
     title: "Мінімалістичний інтер\u0027єр у білому",
-    img: "photo-1768609239321-1cfe14893e80",
+    imageId: "photo-1768609239321-1cfe14893e80",
     excerpt:
       "Як використати білі відтінки, щоб простір дихав світлом і виглядав дорожче.",
-    feat: true,
-    read: "5 хв",
-    body: [
+    featured: true,
+    readTime: "5 хв",
+    paragraphs: [
       "Білий — це не «нудно», а основа, на якій будується відчуття простору й світла. Головна помилка — використати один холодний білий на всьому. Простір стає стерильним.",
       "Працюйте відтінками: теплий білий на стінах, молочний у текстилі, графіт чи дерево як акцент. Так зʼявляється глибина.",
       "Додайте 2–3 фактури: матову стіну, лляний текстиль, дерево. Саме фактура рятує мінімалізм від відчуття «порожньо».",
@@ -238,10 +285,10 @@ const POSTS = [
   },
   {
     title: "Поради для маленької спальні",
-    img: "photo-1653974123568-b5eff6d851e1",
+    imageId: "photo-1653974123568-b5eff6d851e1",
     excerpt: "Прості рішення, що візуально розширюють кімнату.",
-    read: "4 хв",
-    body: [
+    readTime: "4 хв",
+    paragraphs: [
       "Маленька спальня — це не вирок. Перше правило: менше різних поверхонь і кольорів, більше повітря.",
       "Ліжко з підйомним механізмом замінює шафу для сезонних речей. Вертикальні полиці тягнуть погляд угору й «піднімають» стелю.",
       "Дзеркало навпроти вікна подвоює денне світло. А вузькі бра замість тумбочкових ламп звільняють поверхні.",
@@ -250,10 +297,10 @@ const POSTS = [
   },
   {
     title: "Як обрати акценти в декорі",
-    img: "photo-1606744824163-985d376605aa",
+    imageId: "photo-1606744824163-985d376605aa",
     excerpt: "Колір, фактура та форма, що працюють разом.",
-    read: "4 хв",
-    body: [
+    readTime: "4 хв",
+    paragraphs: [
       "Акцент — це те, за що чіпляється око. Якщо акцентів забагато, простір втомлює. Правило: один головний акцент на зону.",
       "Обирайте акцент за принципом контрасту: до спокійної бази — насичений колір або виразна фактура.",
       "Повторіть акцентний колір 2–3 рази в різних предметах — так він виглядатиме навмисним, а не випадковим.",
@@ -262,11 +309,11 @@ const POSTS = [
   },
   {
     title: "Кухня, у якій хочеться готувати",
-    img: "photo-1632583824020-937ae9564495",
+    imageId: "photo-1632583824020-937ae9564495",
     excerpt: "Ергономіка «робочого трикутника» простими словами.",
-    read: "6 хв",
-    more: true,
-    body: [
+    readTime: "6 хв",
+    additional: true,
+    paragraphs: [
       "Зручна кухня починається не з краси, а з «робочого трикутника»: мийка — плита — холодильник. Чим логічніший їхній звʼязок, тим менше зайвих кроків.",
       "Робочу поверхню між мийкою та плитою лишайте вільною — це головна зона приготування.",
       "Підсвітка робочої зони важливіша за люстру: світло має падати на стіл, а не вам за спину.",
@@ -275,11 +322,11 @@ const POSTS = [
   },
   {
     title: "Освітлення: 5 рівнів світла",
-    img: "photo-1583847268964-b28dc8f51f92",
+    imageId: "photo-1583847268964-b28dc8f51f92",
     excerpt: "Чому одна люстра ніколи не виглядає дорого.",
-    read: "5 хв",
-    more: true,
-    body: [
+    readTime: "5 хв",
+    additional: true,
+    paragraphs: [
       "Дорогий інтерʼєр майже завжди має кілька сценаріїв світла, а не одну лампу на стелі.",
       "Рівень 1 — загальне світло. Рівень 2 — функціональне (робочі зони). Рівень 3 — акцентне (картини, ніші).",
       "Рівень 4 — декоративне (бра, гірлянди, свічки). Рівень 5 — природне, яким теж треба керувати через штори.",
@@ -288,11 +335,11 @@ const POSTS = [
   },
   {
     title: "Кафе як бренд: дизайн, що продає",
-    img: "photo-1648462908676-8305f0eff8e0",
+    imageId: "photo-1648462908676-8305f0eff8e0",
     excerpt: "Як інтерʼєр закладу впливає на середній чек.",
-    read: "7 хв",
-    more: true,
-    body: [
+    readTime: "7 хв",
+    additional: true,
+    paragraphs: [
       "Інтерʼєр кафе — це частина меню. Він формує очікування ще до першого ковтка кави.",
       "Визначте одну впізнавану деталь: колір, матеріал чи форму, яку гість захоче сфотографувати. Це безкоштовний маркетинг.",
       "Зонуйте: місця для «швидко взяти каву» і для «затриматися надовго» працюють на різну виручку.",
@@ -301,138 +348,214 @@ const POSTS = [
   },
 ];
 const blogGrid = document.getElementById("blogGrid");
-POSTS.forEach((p, i) => {
-  const a = document.createElement("article");
-  a.className = "post" + (p.feat ? "" : " np") + (p.more ? " more-post" : "");
-  a.innerHTML = `<div class="pimg"><img src="${U(p.img, p.feat ? 900 : 700)}" alt="${p.title}" loading="lazy"></div>
-      <div class="card"><h3>${p.title}</h3><p>${p.excerpt}</p>
-      <span class="read">Читати <svg width="15" height="15" viewBox="0 0 24 24" fill="none"><path d="M5 12h14M13 6l6 6-6 6" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"/></svg></span></div>`;
-  a.onclick = () => openPost(p);
-  blogGrid.appendChild(a);
-});
-function openPost(p) {
-  const html = `<div class="modal-kicker">Блог · ${p.read} читання</div>
-      <h2>${p.title}</h2>
-      ${p.body.map((par) => `<p>${par}</p>`).join("")}
-      <button class="btn-cta" onclick="goForm()">Замовити консультацію
-        <svg width="15" height="15" viewBox="0 0 24 24" fill="none"><path d="M7 17L17 7M17 7H8M17 7v9" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"/></svg></button>`;
-  openModal(html, U(p.img, 900));
-}
-document.getElementById("moreBtn").onclick = function () {
-  document
-    .querySelectorAll(".more-post")
-    .forEach((el) => el.classList.add("show"));
-  this.style.display = "none";
-};
+const showMorePostsButton = document.getElementById("showMorePostsButton");
 
-/* ---------- MODAL ENGINE ---------- */
-const modal = document.getElementById("modal");
-function openModal(html, img) {
-  document.getElementById("modalBody").innerHTML = html;
-  document.getElementById("modalImg").innerHTML = img
-    ? `<img src="${img}" alt="">`
+blogPosts.forEach((post) => {
+  const article = document.createElement("article");
+  article.className = `blog-post${post.featured ? "" : " standard-post"}${
+    post.additional ? " additional-post" : ""
+  }`;
+  article.innerHTML = `
+    <div class="blog-post-image">
+      <img src="${createUnsplashUrl(post.imageId, post.featured ? 900 : 700)}" alt="${post.title}" loading="lazy">
+    </div>
+    <div class="blog-post-content">
+      <h3>${post.title}</h3>
+      <p>${post.excerpt}</p>
+      <span class="read-more">Читати ${ICONS.arrowRight}</span>
+    </div>
+  `;
+  article.tabIndex = 0;
+  article.setAttribute("role", "button");
+  article.addEventListener("click", () => openBlogPostModal(post));
+  article.addEventListener("keydown", (event) => {
+    if (event.key === "Enter" || event.key === " ") {
+      event.preventDefault();
+      openBlogPostModal(post);
+    }
+  });
+  blogGrid.appendChild(article);
+});
+
+function openBlogPostModal(post) {
+  const modalHtml = `
+    <div class="modal-kicker">Блог · ${post.readTime} читання</div>
+    <h2>${post.title}</h2>
+    ${post.paragraphs.map((paragraph) => `<p>${paragraph}</p>`).join("")}
+    <button class="primary-button" type="button" data-contact-prefill="">
+      Замовити консультацію
+      ${ICONS.arrowUpRight}
+    </button>
+  `;
+
+  openModal(modalHtml, createUnsplashUrl(post.imageId, 900));
+}
+
+showMorePostsButton.addEventListener("click", () => {
+  document
+    .querySelectorAll(".additional-post")
+    .forEach((post) => post.classList.add("is-visible"));
+  showMorePostsButton.hidden = true;
+});
+
+/* ---------- MODAL ---------- */
+const contentModal = document.getElementById("contentModal");
+const modalContent = document.getElementById("modalContent");
+const modalImage = document.getElementById("modalImage");
+const modalCloseButton = document.getElementById("modalCloseButton");
+let lastFocusedElement;
+
+function openModal(html, imageUrl) {
+  lastFocusedElement = document.activeElement;
+  modalContent.innerHTML = html;
+  modalImage.innerHTML = imageUrl
+    ? `<img src="${imageUrl}" alt="">`
     : "";
-  document.getElementById("modalImg").hidden = !img;
-  modal.classList.add("open");
-  document.body.style.overflow = "hidden";
+  modalImage.hidden = !imageUrl;
+  contentModal.classList.add("is-open");
+  document.body.classList.add("modal-open");
+  modalCloseButton.focus();
 }
+
 function closeModal() {
-  modal.classList.remove("open");
-  document.body.style.overflow = "";
+  if (!contentModal.classList.contains("is-open")) return;
+
+  contentModal.classList.remove("is-open");
+  document.body.classList.remove("modal-open");
+  lastFocusedElement?.focus();
 }
-document.getElementById("modalClose").onclick = closeModal;
-modal.onclick = (e) => {
-  if (e.target === modal) closeModal();
-};
-addEventListener("keydown", (e) => {
-  if (e.key === "Escape") closeModal();
+
+modalCloseButton.addEventListener("click", closeModal);
+contentModal.addEventListener("click", (event) => {
+  if (event.target === contentModal) closeModal();
+});
+modalContent.addEventListener("click", (event) => {
+  const contactButton = event.target.closest("[data-contact-prefill]");
+  if (contactButton) goToContactForm(contactButton.dataset.contactPrefill);
+});
+window.addEventListener("keydown", (event) => {
+  if (event.key === "Escape") closeModal();
+  if (event.key === "Escape") setMobileMenuOpen(false);
 });
 
 /* ---------- FORM ---------- */
-function goForm(prefill) {
+function goToContactForm(prefill = "") {
   closeModal();
   document.getElementById("contact").scrollIntoView({ behavior: "smooth" });
+
   if (prefill) {
-    const map = {
-      "Дизайн-консультація": "Квартира / Дім",
-      "Виїзд на об\u0027єкт": "Квартира / Дім",
-    };
-    const msg = document.getElementById("fm");
-    if (msg) msg.value = "Цікавить послуга: " + prefill;
+    document.getElementById("messageInput").value = `Цікавить послуга: ${prefill}`;
   }
 }
-document.getElementById("leadForm").addEventListener("submit", function (e) {
-  e.preventDefault();
-  const name = document.getElementById("fn").value.trim();
-  const phone = document.getElementById("fp").value.trim();
-  if (!name || !phone) {
-    if (!name) document.getElementById("fn").style.borderColor = "#e0623f";
-    if (!phone) document.getElementById("fp").style.borderColor = "#e0623f";
-    return;
-  }
-  this.style.display = "none";
-  document.getElementById("formOk").classList.add("show");
+
+const contactForm = document.getElementById("contactForm");
+const nameInput = document.getElementById("nameInput");
+const phoneInput = document.getElementById("phoneInput");
+const formSuccess = document.getElementById("formSuccess");
+const requiredInputs = [nameInput, phoneInput];
+
+contactForm.addEventListener("submit", (event) => {
+  event.preventDefault();
+
+  const invalidInputs = requiredInputs.filter((input) => !input.value.trim());
+  requiredInputs.forEach((input) => {
+    input.classList.toggle("field-error", invalidInputs.includes(input));
+  });
+
+  if (invalidInputs.length) return;
+
+  contactForm.hidden = true;
+  formSuccess.classList.add("is-visible");
 });
-["fn", "fp"].forEach((id) =>
-  document.getElementById(id).addEventListener("input", function () {
-    this.style.borderColor = "";
-  }),
-);
+
+requiredInputs.forEach((input) => {
+  input.addEventListener("input", () => input.classList.remove("field-error"));
+});
 
 /* ---------- GENERAL ---------- */
-addEventListener("load", () =>
-  document.querySelector(".hero").classList.add("loaded"),
+const hero = document.querySelector(".hero");
+const siteHeader = document.getElementById("siteHeader");
+const mobileMenu = document.getElementById("mobileMenu");
+const menuToggle = document.getElementById("menuToggle");
+const mobileMenuClose = document.getElementById("mobileMenuClose");
+const scrollToFeaturesButton = document.getElementById(
+  "scrollToFeaturesButton",
 );
-const hdr = document.getElementById("hdr");
-addEventListener("scroll", () =>
-  hdr.classList.toggle("scrolled", scrollY > 30),
-);
-const mmenu = document.getElementById("mmenu");
-document.getElementById("burger").onclick = () => mmenu.classList.add("open");
-document.getElementById("mclose").onclick = () =>
-  mmenu.classList.remove("open");
-mmenu
-  .querySelectorAll("a")
-  .forEach((a) => (a.onclick = () => mmenu.classList.remove("open")));
 
-const io = new IntersectionObserver(
-  (es) =>
-    es.forEach((e) => {
-      if (e.isIntersecting) {
-        e.target.classList.add("in");
-        io.unobserve(e.target);
+window.addEventListener("load", () => hero.classList.add("is-loaded"));
+window.addEventListener("scroll", () => {
+  siteHeader.classList.toggle("is-scrolled", window.scrollY > 30);
+});
+
+function setMobileMenuOpen(isOpen) {
+  mobileMenu.classList.toggle("is-open", isOpen);
+  document.body.classList.toggle("menu-open", isOpen);
+  menuToggle.setAttribute("aria-expanded", String(isOpen));
+}
+
+menuToggle.addEventListener("click", () => setMobileMenuOpen(true));
+mobileMenuClose.addEventListener("click", () => setMobileMenuOpen(false));
+mobileMenu.querySelectorAll("a").forEach((link) => {
+  link.addEventListener("click", () => setMobileMenuOpen(false));
+});
+document.querySelectorAll("[data-contact-button]").forEach((button) => {
+  button.addEventListener("click", () => goToContactForm());
+});
+scrollToFeaturesButton.addEventListener("click", () => {
+  document.getElementById("features").scrollIntoView();
+});
+
+const revealObserver = new IntersectionObserver(
+  (entries) =>
+    entries.forEach((entry) => {
+      if (entry.isIntersecting) {
+        entry.target.classList.add("is-visible");
+        revealObserver.unobserve(entry.target);
       }
     }),
   { threshold: 0.14 },
 );
-document.querySelectorAll(".rv").forEach((el) => io.observe(el));
-const easeOut = (p) => 1 - Math.pow(1 - p, 3);
-const cio = new IntersectionObserver(
-  (es) =>
-    es.forEach((e) => {
-      if (!e.isIntersecting) return;
-      const el = e.target,
-        target = +el.dataset.count,
-        dur = 1700;
-      let start = null;
-      el.parentElement &&
-        el.closest(".statc") &&
-        el.closest(".statc").classList.add("counting");
-      const tick = (now) => {
-        if (!start) start = now;
-        const p = Math.min((now - start) / dur, 1);
-        el.textContent = Math.round(easeOut(p) * target);
-        if (p < 1) {
-          requestAnimationFrame(tick);
+document
+  .querySelectorAll(".reveal")
+  .forEach((element) => revealObserver.observe(element));
+
+const easeOutCubic = (progress) => 1 - Math.pow(1 - progress, 3);
+const countDuration = 1700;
+const counterObserver = new IntersectionObserver(
+  (entries) =>
+    entries.forEach((entry) => {
+      if (!entry.isIntersecting) return;
+
+      const counter = entry.target;
+      const targetValue = Number(counter.dataset.count);
+      const statCard = counter.closest(".stat-card");
+      let startTime;
+
+      statCard?.classList.add("is-counting");
+
+      function updateCounter(currentTime) {
+        startTime ??= currentTime;
+        const progress = Math.min(
+          (currentTime - startTime) / countDuration,
+          1,
+        );
+        counter.textContent = Math.round(
+          easeOutCubic(progress) * targetValue,
+        );
+
+        if (progress < 1) {
+          requestAnimationFrame(updateCounter);
         } else {
-          el.textContent = target;
-          const c = el.closest(".statc");
-          c && c.classList.remove("counting");
+          counter.textContent = targetValue;
+          statCard?.classList.remove("is-counting");
         }
-      };
-      requestAnimationFrame(tick);
-      cio.unobserve(el);
+      }
+
+      requestAnimationFrame(updateCounter);
+      counterObserver.unobserve(counter);
     }),
   { threshold: 0.4 },
 );
-document.querySelectorAll("[data-count]").forEach((el) => cio.observe(el));
+document
+  .querySelectorAll("[data-count]")
+  .forEach((counter) => counterObserver.observe(counter));

@@ -32,7 +32,7 @@
     <meta property="og:url" content="https://forma.studio/" />
     <meta
       property="og:image"
-      content="https://images.unsplash.com/photo-1768609239321-1cfe14893e80?auto=format&fit=crop&w=1200&q=80"
+      content="https://images.unsplash.com/photo-1768609239321-1cfe14893e80?auto=format&amp;fit=crop&amp;w=1200&amp;q=80"
     />
     <meta name="twitter:card" content="summary_large_image" />
     <meta name="twitter:title" content="FORMA — Студія дизайну інтер'єру" />
@@ -42,7 +42,7 @@
     />
     <meta
       name="twitter:image"
-      content="https://images.unsplash.com/photo-1768609239321-1cfe14893e80?auto=format&fit=crop&w=1200&q=80"
+      content="https://images.unsplash.com/photo-1768609239321-1cfe14893e80?auto=format&amp;fit=crop&amp;w=1200&amp;q=80"
     />
     <meta name="geo.region" content="UA-51" />
     <meta name="geo.placename" content="Odesa" />
@@ -50,7 +50,7 @@
     <link rel="preconnect" href="https://fonts.googleapis.com" />
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
     <link
-      href="https://fonts.googleapis.com/css2?family=Oswald:wght@300;400;500;600;700&family=Onest:wght@300;400;500;600;700;800&display=swap"
+      href="https://fonts.googleapis.com/css2?family=Oswald:wght@300;400;500;600;700&amp;family=Onest:wght@300;400;500;600;700;800&amp;display=swap"
       rel="stylesheet"
     />
 
@@ -112,126 +112,145 @@
   </head>
   <body id="top">
     <!-- HEADER -->
-    <header id="hdr">
-      <nav class="nav wrap">
+    <header id="siteHeader">
+      <nav class="site-navigation container">
         <a href="#top" class="logo">
-            <span class="mark">
+            <span class="logo-mark">
                 <svg viewBox="0 0 24 24" fill="none">
                     <path d="M5 19V5h11M5 12h8" stroke="#16160e" stroke-width="2.4" stroke-linecap="round"/>
                 </svg>
             </span>
             FORMA
         </a>
-        <ul class="nav-links">
+        <ul class="navigation-links">
           <li><a href="#top">Головна</a></li>
           <li><a href="#features">Переваги</a></li>
           <li><a href="#services">Послуги</a></li>
           <li><a href="#blog">Блог</a></li>
           <li><a href="#contact">Контакти</a></li>
         </ul>
-        <button class="btn-cta" onclick="goForm()">
+        <button class="primary-button" type="button" data-contact-button>
             Замовити
             <svg width="15" height="15" viewBox="0 0 24 24" fill="none">
                 <path d="M7 17L17 7M17 7H8M17 7v9" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"/>
             </svg>
         </button>
-        <button class="burger" id="burger" aria-label="Відкрити меню">
+        <button
+          class="menu-toggle"
+          id="menuToggle"
+          type="button"
+          aria-label="Відкрити меню"
+          aria-controls="mobileMenu"
+          aria-expanded="false"
+        >
           <span></span><span></span><span></span>
         </button>
       </nav>
     </header>
 
     <!-- MOBILE MENU -->
-    <div class="mmenu" id="mmenu">
-      <button class="mclose" id="mclose" aria-label="Закрити">&times;</button>
+    <nav class="mobile-menu" id="mobileMenu" aria-label="Мобільна навігація">
+      <button
+        class="mobile-menu-close"
+        id="mobileMenuClose"
+        type="button"
+        aria-label="Закрити"
+      >
+        &times;
+      </button>
       <a href="#top">Головна</a>
       <a href="#features">Переваги</a>
       <a href="#services">Послуги</a>
       <a href="#blog">Блог</a>
-      <a href="#contact" class="lime">Замовити</a>
-    </div>
+      <a href="#contact" class="accent-text">Замовити</a>
+    </nav>
 
     <main>
       <!-- HERO -->
       <section class="hero">
-        <div class="wrap">
-          <h1 class="display">
-            <span class="ln"><span>Інтер'єр</span></span>
-            <span class="ln"><span class="lime">майбутнього</span></span>
+        <div class="container">
+          <h1 class="display-heading">
+            <span class="hero-line"><span>Інтер'єр</span></span>
+            <span class="hero-line"><span class="accent-text">майбутнього</span></span>
           </h1>
           <p class="hero-sub">
             <b>FORMA</b> — студія дизайну інтер'єру в Одесі, що створює простори
             для дому, офісів, кафе, магазинів та багатьох інших задач.
           </p>
 
-          <div class="cat-row">
-            <div class="cat-label">
+          <div class="category-selector">
+            <div class="category-help">
               Оберіть напрям — і подивіться приклади робіт:
             </div>
-            <div class="cats" id="cats" role="tablist"></div>
+            <div class="category-list" id="categoryList" role="tablist"></div>
           </div>
 
-          <div class="strip-wrap">
-             <div class="strip"><div class="strip-track" id="strip"></div></div>
+          <div class="gallery-strip-wrapper">
+             <div class="gallery-strip"><div class="gallery-strip-track" id="galleryStripTrack"></div></div>
           </div>
         </div>
       </section>
 
       <!-- STATS + SCROLL BUTTON -->
-      <section class="gallery">
-        <div class="wrap">
+      <section>
+        <div class="container">
           <div class="stats-band">
             <div class="stats">
-              <div class="statc rv">
+              <div class="stat-card reveal">
                 <div>
-                  <div class="num"><span data-count="389">0</span>+</div>
-                  <div class="lbl">Задоволених клієнтів</div>
+                  <div class="stat-number"><span data-count="389">0</span>+</div>
+                  <div class="stat-label">Задоволених клієнтів</div>
                 </div>
               </div>
-              <div class="statc rv d1">
+              <div class="stat-card reveal reveal-delay-1">
                 <div>
-                  <div class="num"><span data-count="273">0</span>+</div>
-                  <div class="lbl">Реалізованих проєктів</div>
+                  <div class="stat-number"><span data-count="273">0</span>+</div>
+                  <div class="stat-label">Реалізованих проєктів</div>
                 </div>
               </div>
-              <div class="statc rv d2">
+              <div class="stat-card reveal reveal-delay-2">
                 <div>
-                  <div class="num"><span data-count="842">0</span>+</div>
-                  <div class="lbl">Клієнтів за 8 років</div>
+                  <div class="stat-number"><span data-count="842">0</span>+</div>
+                  <div class="stat-label">Клієнтів за 8 років</div>
                 </div>
               </div>
             </div>
-            <button class="scroll-btn rv d3" onclick="document.getElementById('features').scrollIntoView()" aria-label="Гортати донизу">
-                <span class="circ">
+            <button
+              class="scroll-button reveal reveal-delay-3"
+              id="scrollToFeaturesButton"
+              type="button"
+              aria-label="Гортати донизу"
+            >
+                <span class="scroll-button-icon">
                     <svg viewBox="0 0 24 24" fill="none">
                      <path d="M12 5v14M12 19l6-6M12 19l-6-6" stroke="#16160e" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"/>
                     </svg>
                 </span>
-                <span class="t">Донизу</span>
+                <span class="scroll-button-label">Донизу</span>
             </button>
           </div>
         </div>
       </section>
 
       <!-- CEO QUOTE -->
-      <section class="quote-sec" id="about">
-        <div class="wrap">
-          <div class="quote-card rv">
-            <div class="bg">
-              <img src="https://images.unsplash.com/photo-1567016376408-0226e4d0c1ea?auto=format&fit=crop&w=1500&q=80" alt="Стильний інтер'єр вітальні"/>
+      <section class="quote-section" id="about">
+        <div class="container">
+          <div class="quote-card reveal">
+            <div class="quote-background">
+              <img src="https://images.unsplash.com/photo-1567016376408-0226e4d0c1ea?auto=format&amp;fit=crop&amp;w=1500&amp;q=80" alt="Стильний інтер'єр вітальні"/>
             </div>
-            <div class="qmark">”</div>
-            <p class="qtext">
+            <div class="quote-mark">”</div>
+            <p class="quote-text">
               Ми створюємо рішення для тих, хто хоче мати
-              <span class="lime">інтер'єр своєї мрії</span> — функціональний, естетичний і по-справжньому свій.
+              <span class="accent-text">інтер'єр своєї мрії</span> — функціональний, естетичний і по-справжньому свій.
             </p>
-            <div class="ceo">
-              <div class="ph">
-                <img src="https://images.unsplash.com/photo-1560250097-0b93528c311a?auto=format&fit=crop&w=200&q=80" alt="Олександр Ковальчук, CEO FORMA"/>
+            <div class="founder">
+              <div class="founder-photo">
+                <img src="https://images.unsplash.com/photo-1560250097-0b93528c311a?auto=format&amp;fit=crop&amp;w=200&amp;q=80" alt="Олександр Ковальчук, CEO FORMA"/>
               </div>
               <div>
-                <div class="nm">Олександр Ковальчук</div>
-                <div class="rl">Засновник та CEO FORMA</div>
+                <div class="founder-name">Олександр Ковальчук</div>
+                <div class="founder-role">Засновник та CEO FORMA</div>
               </div>
             </div>
           </div>
@@ -239,34 +258,23 @@
       </section>
 
       <!-- FEATURES -->
-      <section class="sec light-sec" id="features">
-        <div class="wrap">
-          <div class="rv">
+      <section class="content-section light-section" id="features">
+        <div class="container">
+          <div class="reveal">
             <span class="eyebrow">Чому обирають нас?</span>
-            <h2 class="head-title">Чим ми відрізняємось</h2>
+            <h2 class="section-title">Чим ми відрізняємось</h2>
           </div>
 
-          <div class="feature rv">
-            <div class="f-media dashed">
-              <div class="inner">
-                <img src="https://images.unsplash.com/photo-1762983870490-63e5ba07105b?auto=format&fit=crop&w=900&q=80" alt="Робоча зона дизайнера"/>
-                <!-- <div class="f-arrow">
-                  <svg viewBox="0 0 24 24" fill="none">
-                    <path
-                      d="M7 17L17 7M17 7H8M17 7v9"
-                      stroke="#16160e"
-                      stroke-width="2.4"
-                      stroke-linecap="round"
-                      stroke-linejoin="round"
-                    />
-                  </svg>
-                </div> -->
+          <div class="feature reveal">
+            <div class="feature-media dashed-frame">
+              <div class="feature-media-inner">
+                <img src="https://images.unsplash.com/photo-1762983870490-63e5ba07105b?auto=format&amp;fit=crop&amp;w=900&amp;q=80" alt="Робоча зона дизайнера"/>
               </div>
             </div>
             <div>
-              <div class="f-num">01 — Деталі</div>
-              <h3 class="f-title">Досконалий дизайн</h3>
-              <p class="f-text">
+              <div class="feature-number">01 — Деталі</div>
+              <h3 class="feature-title">Досконалий дизайн</h3>
+              <p class="feature-text">
                 Оптимізація та ретельне опрацювання кожної деталі — ключ до
                 результату, яким хочеться милуватись щодня.
               </p>
@@ -279,14 +287,14 @@
             </div>
           </div>
 
-          <div class="feature rev rv">
-            <div class="f-media">
-              <img src="https://images.unsplash.com/photo-1583847268964-b28dc8f51f92?auto=format&fit=crop&w=900&q=80" alt="Затишна вітальня"/>
+          <div class="feature feature-reversed reveal">
+            <div class="feature-media">
+              <img src="https://images.unsplash.com/photo-1583847268964-b28dc8f51f92?auto=format&amp;fit=crop&amp;w=900&amp;q=80" alt="Затишна вітальня"/>
             </div>
             <div>
-              <div class="f-num">02 — Затишок</div>
-              <h3 class="f-title">Комфорт</h3>
-              <p class="f-text">
+              <div class="feature-number">02 — Затишок</div>
+              <h3 class="feature-title">Комфорт</h3>
+              <p class="feature-text">
                 Затишок у кожному елементі простору. Мінімалістичний та сучасний
                 підхід, що дбає про вас і ваш ритм життя.
               </p>
@@ -298,14 +306,14 @@
             </div>
           </div>
 
-          <div class="feature rv">
-            <div class="f-media">
-              <img src="https://images.unsplash.com/photo-1555041469-a586c61ea9bc?auto=format&fit=crop&w=900&q=80" alt="Розкішний диван"/>
+          <div class="feature reveal">
+            <div class="feature-media">
+              <img src="https://images.unsplash.com/photo-1555041469-a586c61ea9bc?auto=format&amp;fit=crop&amp;w=900&amp;q=80" alt="Розкішний диван"/>
             </div>
             <div>
-              <div class="f-num">03 — Естетика</div>
-              <h3 class="f-title">Розкішне життя</h3>
-              <p class="f-text">
+              <div class="feature-number">03 — Естетика</div>
+              <h3 class="feature-title">Розкішне життя</h3>
+              <p class="feature-text">
                 Меблі та елементи декору, що створюють відчуття елегантності й
                 розкоші — у кожному погляді на ваш інтер'єр.
               </p>
@@ -320,38 +328,42 @@
       </section>
 
       <!-- SERVICES -->
-      <section class="sec" id="services">
-        <div class="wrap">
-          <div class="serv-top">
-            <div class="rv">
+      <section class="content-section" id="services">
+        <div class="container">
+          <div class="services-header">
+            <div class="reveal">
               <span class="eyebrow">Послуги</span>
-              <h2 class="head-title">Що ми пропонуємо</h2>
+              <h2 class="section-title">Що ми пропонуємо</h2>
             </div>
-            <p class="serv-intro rv d1">
+            <p class="services-intro reveal reveal-delay-1">
               Як студія дизайну та підрядник ми допомагаємо облаштувати простір
               згідно з вашими побажаннями: естетика, функціональність, комфорт
               та оптимальний бюджет. Натисніть на послугу — щоб дізнатися
               деталі.
             </p>
           </div>
-          <div class="serv-list" id="servList"></div>
+          <div class="services-list" id="servicesList"></div>
         </div>
       </section>
 
       <!-- BLOG -->
-      <section class="sec light-sec" id="blog">
-        <div class="wrap">
-          <div class="blog-head rv">
+      <section class="content-section light-section" id="blog">
+        <div class="container">
+          <div class="blog-header reveal">
             <div>
               <span class="eyebrow">Блог</span>
-              <h2 class="display" style="margin-top: 14px">
-                Останнє <span class="skew lime">з блогу</span>
+              <h2 class="display-heading section-heading-spaced">
+                Останнє <span class="skew-text accent-text">з блогу</span>
               </h2>
             </div>
           </div>
           <div class="blog-grid" id="blogGrid"></div>
-          <div class="blog-more">
-            <button class="btn-ghost" id="moreBtn">
+          <div class="blog-actions">
+            <button
+              class="secondary-button"
+              id="showMorePostsButton"
+              type="button"
+            >
               Показати більше статей
               <svg width="16" height="16" viewBox="0 0 24 24" fill="none">
                 <path d="M12 5v14M5 12l7 7 7-7" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"/>
@@ -362,72 +374,72 @@
       </section>
 
       <!-- CONTACT + FORM -->
-      <section class="contact-sec" id="contact">
-        <div class="wrap">
+      <section class="contact-section" id="contact">
+        <div class="container">
           <div class="contact-grid">
-            <div class="contact-info rv">
+            <div class="contact-info reveal">
               <span class="eyebrow">Заявка</span>
-              <h2 style="margin-top: 14px">Розкажіть про ваш простір</h2>
+              <h2 class="section-heading-spaced">Розкажіть про ваш простір</h2>
               <p>
                 Залиште заявку — і ми звʼяжемося з вами протягом дня, щоб
                 обговорити завдання, терміни та орієнтовний бюджет. Безкоштовно.
               </p>
-              <div class="ci-list">
-                <div class="ci-item">
-                  <span class="ic">
+              <div class="contact-details">
+                <div class="contact-detail">
+                  <span class="contact-detail-icon">
                         <svg viewBox="0 0 24 24" fill="none" stroke-width="2">
                         <path d="M3 5l9 7 9-7M3 5h18v14H3V5z" stroke="currentColor"/>
                         </svg>
                     </span>
                   <div>
-                    <div class="k">Пошта</div>
-                    <div class="v">hello@forma.studio</div>
+                    <div class="contact-detail-label">Пошта</div>
+                    <div class="contact-detail-value">hello@forma.studio</div>
                   </div>
                 </div>
-                <div class="ci-item">
-                    <span class="ic">
+                <div class="contact-detail">
+                    <span class="contact-detail-icon">
                         <svg viewBox="0 0 24 24" fill="none" stroke-width="2">
                         <path d="M4 4h4l2 5-3 2a14 14 0 006 6l2-3 5 2v4a2 2 0 01-2 2A17 17 0 014 6a2 2 0 010-2z" stroke="currentColor"/>
                         </svg>
                     </span>
                   <div>
-                    <div class="k">Телефон</div>
-                    <div class="v">+38 (068) 000-00-00</div>
+                    <div class="contact-detail-label">Телефон</div>
+                    <div class="contact-detail-value">+38 (068) 000-00-00</div>
                   </div>
                 </div>
-                <div class="ci-item">
-                    <span class="ic">
+                <div class="contact-detail">
+                    <span class="contact-detail-icon">
                         <svg viewBox="0 0 24 24" fill="none" stroke-width="2">
                             <path d="M12 21s7-6.5 7-12a7 7 0 10-14 0c0 5.5 7 12 7 12z" stroke="currentColor"/>
                             <circle cx="12" cy="9" r="2.5" stroke="currentColor"/>
                         </svg>
                     </span>
                     <div>
-                        <div class="k">Локація</div>
-                        <div class="v">Одеса, Україна</div>
+                        <div class="contact-detail-label">Локація</div>
+                        <div class="contact-detail-value">Одеса, Україна</div>
                     </div>
                 </div>
               </div>
             </div>
 
-            <div class="form-card rv d1">
-              <form id="leadForm" novalidate>
+            <div class="form-card reveal reveal-delay-1">
+              <form id="contactForm" novalidate>
                 <div class="form-grid">
                   <div class="field">
-                    <label for="fn">Ім'я</label>
-                    <input id="fn" name="name" type="text" placeholder="Ваше ім'я" required/>
+                    <label for="nameInput">Ім'я</label>
+                    <input id="nameInput" name="name" type="text" placeholder="Ваше ім'я" required/>
                   </div>
                   <div class="field">
-                    <label for="fp">Телефон</label>
-                    <input id="fp" name="phone" type="tel" placeholder="+38 (0__) ___-__-__" required/>
+                    <label for="phoneInput">Телефон</label>
+                    <input id="phoneInput" name="phone" type="tel" placeholder="+38 (0__) ___-__-__" required/>
                   </div>
                   <div class="field">
-                    <label for="fe">Email</label>
-                    <input id="fe" name="email" type="email" placeholder="email@gmail.com"/>
+                    <label for="emailInput">Email</label>
+                    <input id="emailInput" name="email" type="email" placeholder="email@gmail.com"/>
                   </div>
                   <div class="field">
-                    <label for="ft">Тип проєкту</label>
-                    <select id="ft" name="type">
+                    <label for="projectType">Тип проєкту</label>
+                    <select id="projectType" name="type">
                       <option value="Квартира / Дім">Квартира / Дім</option>
                       <option value="Офіс">Офіс</option>
                       <option value="Кафе / Ресторан">Кафе / Ресторан</option>
@@ -436,11 +448,11 @@
                     </select>
                   </div>
                   <div class="field full">
-                    <label for="fm">Повідомлення</label>
-                    <textarea id="fm" name="msg" placeholder="Кілька слів про простір, площу, побажання…"></textarea>
+                    <label for="messageInput">Повідомлення</label>
+                    <textarea id="messageInput" name="msg" placeholder="Кілька слів про простір, площу, побажання…"></textarea>
                   </div>
                 </div>
-                <button type="submit" class="btn-cta form-submit">
+                <button type="submit" class="primary-button form-submit">
                   Надіслати заявку
                   <svg width="15" height="15" viewBox="0 0 24 24" fill="none">
                     <path d="M7 17L17 7M17 7H8M17 7v9" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"/>
@@ -450,8 +462,8 @@
                   Натискаючи кнопку, ви погоджуєтесь на обробку даних.
                 </p>
               </form>
-              <div class="form-ok" id="formOk">
-                <div class="big">Дякуємо!</div>
+              <div class="form-success" id="formSuccess">
+                <div class="form-success-title">Дякуємо!</div>
                 <p>Заявку прийнято. Ми звʼяжемося з вами найближчим часом.</p>
               </div>
             </div>
@@ -462,15 +474,19 @@
 
     <!-- FOOTER -->
     <footer>
-      <div class="foot-hero">
-        <div class="fbg">
-          <img src="https://images.unsplash.com/photo-1567016376408-0226e4d0c1ea?auto=format&fit=crop&w=1600&q=80" alt="Інтер'єр"/>
+      <div class="footer-hero">
+        <div class="footer-background">
+          <img src="https://images.unsplash.com/photo-1567016376408-0226e4d0c1ea?auto=format&amp;fit=crop&amp;w=1600&amp;q=80" alt="Інтер'єр"/>
         </div>
-        <div class="wrap">
-          <h2 class="display rv">
-            <span class="skew">Ваш простір —</span><br /><span class="skew out">наше рішення</span>
+        <div class="container">
+          <h2 class="display-heading reveal">
+            <span class="skew-text">Ваш простір —</span><br /><span class="skew-text outlined-text">наше рішення</span>
           </h2>
-          <button class="btn-cta fbtn rv d1" onclick="goForm()">
+          <button
+            class="primary-button footer-cta reveal reveal-delay-1"
+            type="button"
+            data-contact-button
+          >
             Замовити проєкт
             <svg width="15" height="15" viewBox="0 0 24 24" fill="none">
               <path d="M7 17L17 7M17 7H8M17 7v9" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"/>
@@ -478,22 +494,22 @@
           </button>
         </div>
       </div>
-      <div class="wrap">
-        <div class="bar">
+      <div class="container">
+        <div class="footer-bar">
             <a href="#top" class="logo">
-                <span class="mark">
+                <span class="logo-mark">
                     <svg viewBox="0 0 24 24" fill="none">
                         <path d="M5 19V5h11M5 12h8" stroke="#16160e" stroke-width="2.4" stroke-linecap="round"/>
                     </svg>
                 </span>
                 FORMA
             </a>
-            <nav class="fnav">
+            <nav class="footer-nav">
                 <a href="#top">Головна</a><a href="#features">Переваги</a>
                 <a href="#services">Послуги</a><a href="#blog">Блог</a>
                 <a href="#contact">Контакти</a>
             </nav>
-            <div class="socials">
+            <div class="social-links">
                 <a href="#" aria-label="Instagram">
                     <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
                         <rect x="3" y="3" width="18" height="18" rx="5" />
@@ -513,20 +529,31 @@
                 </a>
           </div>
         </div>
-        <p class="copy">
+        <p class="copyright">
           © 2026 FORMA Studio. Дизайн інтер'єру з турботою про деталі. Одеса, Україна.
         </p>
       </div>
     </footer>
 
     <!-- MODAL -->
-    <div class="modal-overlay" id="modal" role="dialog" aria-modal="true">
+    <div
+      class="modal-overlay"
+      id="contentModal"
+      role="dialog"
+      aria-modal="true"
+      aria-label="Детальна інформація"
+    >
       <div class="modal">
-        <button class="modal-close" id="modalClose" aria-label="Закрити">
+        <button
+          class="modal-close"
+          id="modalCloseButton"
+          type="button"
+          aria-label="Закрити"
+        >
           &times;
         </button>
-        <div id="modalImg" class="modal-img"></div>
-        <div class="modal-body" id="modalBody"></div>
+        <div id="modalImage" class="modal-image"></div>
+        <div class="modal-content" id="modalContent"></div>
       </div>
     </div>
   </body>
