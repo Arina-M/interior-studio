@@ -398,6 +398,218 @@ showMorePostsButton.addEventListener("click", () => {
   showMorePostsButton.hidden = true;
 });
 
+/* ---------- REVIEWS SLIDER ---------- */
+const reviewsData = [
+  {
+    text: "FORMA перетворила нашу квартиру на справжній дім. Кожна деталь продумана до дрібниць — і це відчувається щодня. Вдячні команді за терпіння та результат.",
+    author: "Марина Кравченко",
+    meta: "Квартира · Одеса",
+    avatarId: "photo-1534528741775-53994a69daeb",
+  },
+  {
+    text: "Команда реалізувала офіс нашої компанії в стислі терміни. Простір виглядає і функціонує бездоганно. Рекомендуємо всім, хто шукає якість.",
+    author: "Олег Романів",
+    meta: "Офіс · 240 м²",
+    avatarId: "photo-1506794778202-cad84cf45f1d",
+  },
+  {
+    text: "Дизайн нашої кав'ярні привертає гостей ще до першої кави. Впізнаваний стиль і тепла атмосфера — саме те, що ми шукали протягом років.",
+    author: "Аліна Шевченко",
+    meta: "Кафе · центр Одеси",
+    avatarId: "photo-1438761681033-6461ffad8d80",
+  },
+  {
+    text: "Будували будинок з нуля й довірили FORMA увесь інтер'єр. Результат перевершив очікування — кожне приміщення живе і дихає.",
+    author: "Дмитро Мороз",
+    meta: "Приватний будинок · 180 м²",
+    avatarId: "photo-1507003211169-0a1dd7228f2d",
+  },
+  {
+    text: "Після редизайну від FORMA клієнти залишаються у магазині довше, а продажі зросли. Дизайн — це інвестиція, яка окупається.",
+    author: "Тетяна Бондар",
+    meta: "Магазин одягу · Аркадія",
+    avatarId: "photo-1531746020798-e6953c6e8e04",
+  },
+  {
+    text: "Маленька спальня стала справжнім місцем відпочинку. FORMA знайшла рішення для кожного сантиметра простору — це справжнє мистецтво.",
+    author: "Ігор Дем'яненко",
+    meta: "Спальня · реновація",
+    avatarId: "photo-1544005313-94ddf0286df2",
+  },
+];
+
+const REVIEW_GAP = 20;
+const REVIEW_CLONE = 3;
+const reviewTotal = reviewsData.length;
+
+let reviewDomIndex = REVIEW_CLONE;
+let reviewTransitioning = false;
+let reviewAutoTimer = null;
+let reviewResumeTimer = null;
+let reviewHovered = false;
+
+const reviewsTrack = document.getElementById("reviewsTrack");
+const reviewsDotsEl = document.getElementById("reviewsDots");
+const reviewsPrevBtn = document.getElementById("reviewsPrev");
+const reviewsNextBtn = document.getElementById("reviewsNext");
+const reviewsSliderWrapper = document.getElementById("reviewsSliderWrapper");
+
+function makeReviewCard(review, hidden) {
+  const div = document.createElement("div");
+  div.className = "review-card";
+  if (hidden) div.setAttribute("aria-hidden", "true");
+  div.innerHTML = `
+    <div class="review-quote">&ldquo;</div>
+    <p class="review-text">${review.text}</p>
+    <div class="review-stars">&#9733;&#9733;&#9733;&#9733;&#9733;</div>
+    <div class="review-author">
+      <div class="review-initial">${review.author.charAt(0)}</div>
+      <div>
+        <div class="review-author-name">${review.author}</div>
+        <div class="review-author-meta">${review.meta}</div>
+      </div>
+    </div>
+  `;
+  return div;
+}
+
+reviewsData.slice(-REVIEW_CLONE).forEach((r) =>
+  reviewsTrack.appendChild(makeReviewCard(r, true))
+);
+reviewsData.forEach((r) => reviewsTrack.appendChild(makeReviewCard(r, false)));
+reviewsData.slice(0, REVIEW_CLONE).forEach((r) =>
+  reviewsTrack.appendChild(makeReviewCard(r, true))
+);
+
+reviewsData.forEach((_, i) => {
+  const dot = document.createElement("button");
+  dot.type = "button";
+  dot.className = "reviews-dot";
+  dot.setAttribute("aria-label", `Відгук ${i + 1}`);
+  dot.addEventListener("click", () => {
+    if (reviewTransitioning) return;
+    reviewGoTo(REVIEW_CLONE + i);
+  });
+  reviewsDotsEl.appendChild(dot);
+});
+
+function reviewVisibleCount() {
+  if (window.innerWidth >= 980) return 3;
+  if (window.innerWidth >= 640) return 2;
+  return 1;
+}
+
+function reviewCardWidth() {
+  const n = reviewVisibleCount();
+  return (reviewsSliderWrapper.offsetWidth - REVIEW_GAP * (n - 1)) / n;
+}
+
+function reviewStepPx() {
+  return reviewCardWidth() + REVIEW_GAP;
+}
+
+function reviewSyncWidths() {
+  const w = reviewCardWidth();
+  reviewsTrack.querySelectorAll(".review-card").forEach((card) => {
+    card.style.width = `${w}px`;
+  });
+}
+
+function reviewUpdateDots() {
+  const logical =
+    ((reviewDomIndex - REVIEW_CLONE) % reviewTotal + reviewTotal) % reviewTotal;
+  reviewsDotsEl.querySelectorAll(".reviews-dot").forEach((dot, i) => {
+    dot.classList.toggle("is-active", i === logical);
+  });
+}
+
+function reviewApplyPos(animated) {
+  reviewsTrack.style.transition = animated
+    ? "transform 0.65s cubic-bezier(0.16, 1, 0.3, 1)"
+    : "none";
+  reviewsTrack.style.transform = `translateX(-${reviewDomIndex * reviewStepPx()}px)`;
+}
+
+function reviewGoTo(domIdx, animated = true) {
+  reviewDomIndex = domIdx;
+  reviewApplyPos(animated);
+  reviewUpdateDots();
+}
+
+reviewsTrack.addEventListener("transitionend", (e) => {
+  if (e.target !== reviewsTrack || e.propertyName !== "transform") return;
+  reviewTransitioning = false;
+  if (reviewDomIndex >= REVIEW_CLONE + reviewTotal) {
+    reviewGoTo(reviewDomIndex - reviewTotal, false);
+  } else if (reviewDomIndex < REVIEW_CLONE) {
+    reviewGoTo(reviewDomIndex + reviewTotal, false);
+  }
+});
+
+function reviewNext() {
+  if (reviewTransitioning) return;
+  reviewTransitioning = true;
+  reviewGoTo(reviewDomIndex + 1);
+}
+
+function reviewPrev() {
+  if (reviewTransitioning) return;
+  reviewTransitioning = true;
+  reviewGoTo(reviewDomIndex - 1);
+}
+
+function reviewStartAuto() {
+  clearInterval(reviewAutoTimer);
+  reviewAutoTimer = setInterval(() => {
+    if (!reviewTransitioning) reviewNext();
+  }, 4000);
+}
+
+function reviewStopAuto() {
+  clearInterval(reviewAutoTimer);
+}
+
+reviewsNextBtn.addEventListener("click", () => {
+  reviewNext();
+  if (!reviewHovered) {
+    reviewStopAuto();
+    reviewStartAuto();
+  }
+});
+
+reviewsPrevBtn.addEventListener("click", () => {
+  reviewPrev();
+  if (!reviewHovered) {
+    reviewStopAuto();
+    reviewStartAuto();
+  }
+});
+
+reviewsSliderWrapper.addEventListener("mouseenter", () => {
+  reviewHovered = true;
+  clearTimeout(reviewResumeTimer);
+  reviewStopAuto();
+});
+
+reviewsSliderWrapper.addEventListener("mouseleave", () => {
+  reviewHovered = false;
+  reviewResumeTimer = setTimeout(reviewStartAuto, 5000);
+});
+
+reviewSyncWidths();
+reviewGoTo(REVIEW_CLONE, false);
+reviewUpdateDots();
+reviewStartAuto();
+
+let reviewResizeTimer;
+window.addEventListener("resize", () => {
+  clearTimeout(reviewResizeTimer);
+  reviewResizeTimer = setTimeout(() => {
+    reviewSyncWidths();
+    reviewApplyPos(false);
+  }, 200);
+});
+
 /* ---------- MODAL ---------- */
 const contentModal = document.getElementById("contentModal");
 const modalContent = document.getElementById("modalContent");
@@ -492,6 +704,11 @@ function setMobileMenuOpen(isOpen) {
   document.body.classList.toggle("menu-open", isOpen);
   menuToggle.setAttribute("aria-expanded", String(isOpen));
 }
+
+// Prevent iOS Safari from scrolling the page behind the open menu
+mobileMenu.addEventListener("touchmove", (e) => {
+  e.preventDefault();
+}, { passive: false });
 
 menuToggle.addEventListener("click", () => setMobileMenuOpen(true));
 mobileMenuClose.addEventListener("click", () => setMobileMenuOpen(false));
